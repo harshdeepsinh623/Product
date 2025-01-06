@@ -747,6 +747,134 @@ let data = [
     }
 ];
 
+let activeUser = JSON.parse(localStorage.getItem("activeUser"));
+
+let auth = document.getElementById("auth");
+
+auth.innerHTML = `
+
+${
+  activeUser  
+   &&
+   `
+     
+        `
+}
+    
+${
+      activeUser 
+        ? 
+        `
+   
+
+        <div class="dropdown">
+        <a class="btn btn-light shadow dropdown-toggle rounded-circle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        👤
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item">${activeUser.name}</a></li>
+          <li><a class="dropdown-item">${activeUser.email}</a></li>
+          <li><a class="dropdown-item">${activeUser.phone}</a></li>
+             <li><hr class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item">
+                <button class="btn btn-danger btn-sm px-3" onclick="logOut()">
+                <i class="bi bi-box-arrow-right"></i>
+              </button>   
+            </a>
+            
+            </li>
+        </ul>
+      </div>
+
+        `
+        :
+        `
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#signup">
+           Login
+       </button>
+       `
+}
+`
+function logOut(){
+  localStorage.removeItem("activeUser");
+  location.reload();
+}
+
+let register = [];
+document.getElementById("register").addEventListener("submit", function(e){
+e.preventDefault();
+
+let obj = {
+    name: document.querySelector("#name").value,
+    email: document.querySelector("#email").value,
+    phone: document.querySelector("#phone").value,
+    password: document.querySelector("#password").value
+ }
+
+ register = JSON.parse(localStorage.getItem("register"));
+
+let log = register.filter((ele) => {
+  if(ele.email == obj.email && ele.password == obj.password){
+      return ele;
+  }
+});
+
+ if(log[0]){
+    alert("user already exist");
+ }
+
+ else if(obj.name != "" && obj.email !="" && obj.phone !="" && obj.password != ""){
+
+  localStorage.setItem("activeUser", JSON.stringify(obj));
+
+  register.push(obj);
+
+  localStorage.setItem("register", JSON.stringify(register));
+  location.href="index.html";
+}
+
+else{
+    alert("Please register first")
+}
+})
+
+document.getElementById("login").addEventListener("submit", function(e){
+  e.preventDefault();
+ 
+  let objlog = {
+     email: document.querySelector("#email1").value,
+     password: document.querySelector("#password1").value
+  }
+
+  if( objlog.email !="" && objlog.password != "")
+  {
+  
+    register = JSON.parse(localStorage.getItem("register"))
+  
+    let log = register.filter((ele) => {
+      if(ele.email == objlog.email && ele.password == objlog.password){
+          return ele;
+      }
+      })
+  
+      if(log[0]){
+          let activeUser = log[0];
+          localStorage.setItem("activeUser", JSON.stringify(activeUser));
+  
+          location.reload();
+      }
+      
+      else{
+          alert("user not register")
+      }
+  }
+
+  else{
+    alert("Please Login first")
+ }
+})
+
 search.addEventListener("keyup", function (e) {
   let val = e.target.value.toUpperCase();
   let searchData = data.filter((ele) =>ele.title.toUpperCase().indexOf(val) >= 0 ||ele.category.toUpperCase().indexOf(val) >= 0
@@ -768,9 +896,9 @@ function displayProducts(products) {
       const colDiv = document.createElement("div");
       colDiv.className = "col-md-3";
       colDiv.innerHTML = `
-          <div class="card p-2" style="height: 95%; width: 90%; border-radius: 10px;">
+          <div class="card p-1" style="height: 100%; border-radius: 10px;">
               <img style="height: 250px; object-fit:contain;" src="${ele.image}" class="card-img-top img-thumbnail p-2" alt="${ele.title}">
-              <div class="card-body">
+              <div class="card-body" style="width:300px;">
                   <h5 class="card-title" style="font-size:16px;">${ele.title}</h5>
                   <div class="d-flex justify-content-between">
                       <span class="badge text-bg-secondary"> $${ele.price} /-</span>
@@ -802,11 +930,14 @@ function filterCategory() {
 
   if (selectedCategory === "viewall") {
       filteredProducts = data;
-  } else if (selectedCategory === "price_sort") {
+  } 
+  else if (selectedCategory === "price_sort") {
       filteredProducts = [...data].sort((a, b) => a.price - b.price);
-  } else if (selectedCategory === "price_sort_high") {
+  } 
+  else if (selectedCategory === "price_sort_high") {
       filteredProducts = [...data].sort((a, b) => b.price - a.price);
-  } else {
+  } 
+  else {
       filteredProducts = data.filter((ele) => ele.category === selectedCategory);
   }
   displayProducts(filteredProducts);
@@ -825,7 +956,6 @@ let cartData = JSON.parse(localStorage.getItem("cartData")) || [];
 window.onload = showData(data);
 
 window.onload = showCart(cartData);
-
 
 function incount(id){
 
@@ -873,23 +1003,41 @@ function checkCart(){
   return !cartData[0];
 }
 
-function addCart(id){
-  
-  let newcartData = data.filter((ele) => ele.id == id).map((ele) => {
-    if(ele.id == id){
-      ele.quantity = 1;
-    }
-    return ele;
-  })
+function getque(id){
 
-  cartData = [...cartData, ...newcartData];
-  console.log(cartData)
+  let cartData = JSON.parse(localStorage.getItem("cartData")) || [];
 
-  setCardData(cartData);
+  cartData = cartData.filter((ele) => ele.id == id)
+  return cartData[0].quantity;
+}
 
-  document.getElementById("cartlength").innerHTML = cartData.length;
+function addCart(id) {
 
-  showData(data);
+  if(activeUser){
+    
+    let newcartData = data.filter((ele) => ele.id == id).map((ele) => {
+      if (ele.id == id) {
+        ele.quantity = 1;
+      }
+      return ele;
+    })
+
+    cartData = [...cartData, ...newcartData]
+    console.log(cartData)
+
+    setCardData(cartData)
+
+    document.getElementById("cartlength").innerHTML = cartData.length;
+
+    showData(data)
+  }
+  else{
+
+    let logModal = new bootstrap.Modal(document.getElementById("signup"));
+
+    logModal.show();
+
+  }
 }
 
 document.getElementById("cartlength").innerHTML = cartData.length;
@@ -903,10 +1051,9 @@ function showData(getData){
         boxes.innerHTML = "";
 
         getData.map((ele)=> {
-
-        
  })
 }
+
 function showCart(){
 
  let cartData = JSON.parse(localStorage.getItem("cartData")) || [];
@@ -950,5 +1097,38 @@ function removeItem(id){
 }
 
 function submitCart() {
+  document.getElementById("submit-btn").classList.remove("hidden");
+  alert("Cart submitted!");
   window.location.href = 'cart.html';
 }  
+
+let currentSlide = 0;
+
+function changeSlide(direction) {
+  const slides = document.querySelectorAll(".carousel-item");
+  const totalSlides = slides.length;
+
+  slides[currentSlide].classList.remove("active");
+  currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+  slides[currentSlide].classList.add("active");
+}
+
+window.onscroll = function () {
+  toggleBackToTopButton();
+};
+
+function toggleBackToTopButton() {
+  const button = document.getElementById("backToTopBtn");
+  if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+    button.style.display = "block"; 
+  } else {
+    button.style.display = "none"; 
+  }
+}
+
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}

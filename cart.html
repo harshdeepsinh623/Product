@@ -5,176 +5,229 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart - Receipt</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+       * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: #1f1f1f; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            color: #fff;
-            overflow: hidden;
-        }
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #1f1f1f;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    height: 100vh;
+    color: #fff;
+    overflow-x: hidden;
+    overflow-y: auto; 
+    padding: 20px;
+}
 
-        .container {
-            background: rgba(50, 50, 50, 0.8); 
-            border-radius: 20px;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
-            width: 90%;
-            max-width: 650px;
-            padding: 30px;
-            text-align: center;
-            position: relative;
-            opacity: 0;
-            animation: fadeIn 1s ease-in-out forwards;
-        }
+.container {
+    background: rgba(50, 50, 50, 0.8);
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+    width: 90%;
+    max-width: 650px;
+    padding: 30px;
+    text-align: center;
+    position: relative;
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards;
+    margin-bottom: 20px; 
+}
 
-        h1 {
-            font-size: 32px;
-            color: #7C4DFF; 
-            letter-spacing: 1px;
-            text-shadow: 0px 0px 12px rgba(124, 77, 255, 0.8);
-            margin-bottom: 30px;
-            animation: slideIn 1s ease-out forwards;
-        }
+h1 {
+    font-size: 32px;
+    color: #7C4DFF; 
+    letter-spacing: 1px;
+    text-shadow: 0px 0px 12px rgba(124, 77, 255, 0.8);
+    margin-bottom: 30px;
+    animation: slideIn 1s ease-out forwards;
+}
 
-        table {
-            width: 100%;
-            margin: 30px 0;
-            border-collapse: collapse;
-            opacity: 0;
-            animation: fadeInTable 1s 0.5s ease-out forwards;
-        }
+table {
+    width: 100%;
+    margin: 30px 0;
+    border-collapse: collapse;
+    opacity: 0;
+    animation: fadeInTable 1s 0.5s ease-out forwards;
+}
 
-        table th,
-        table td {
-            padding: 12px;
-            text-align: left;
-            font-size: 1rem;
-            animation: fadeInColumn 1s ease-out;
-        }
+table th,
+table td {
+    padding: 12px;
+    text-align: left;
+    font-size: 1rem;
+    animation: fadeInColumn 1s ease-out;
+}
 
-        table th {
-            background: linear-gradient(135deg, #7C4DFF, #FFAB40); 
-            color: white;
-            font-size: 1.1rem;
-        }
+table th {
+    background: linear-gradient(135deg, #7C4DFF, #FFAB40); 
+    color: white;
+    font-size: 1.1rem;
+}
 
-        table td {
-            background: rgba(255, 255, 255, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-            color: #fff;
-        }
+table td {
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
 
-        .total {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #FF7043;
-            animation: bounceIn 1s ease-in-out forwards;
-        }
+.total {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #FF7043;
+    animation: bounceIn 1s ease-in-out forwards;
+}
 
-        .receipt {
-            background: rgba(76, 175, 80, 0.2); 
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 25px;
-            font-size: 1rem;
-            color: #4CAF50;
-            opacity: 0;
-            animation: fadeIn 1s 1s ease-in-out forwards;
-        }
+.receipt {
+    background: rgba(76, 175, 80, 0.2); 
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 25px;
+    font-size: 1rem;
+    color: #4CAF50;
+    opacity: 0;
+    animation: fadeIn 1s 1s ease-in-out forwards;
+}
 
-        .btn {
-            margin-top: 30px;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #7C4DFF, #FFAB40); 
-            color: white;
-            border: none;
-            border-radius: 15px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            animation: slideInUp 1s ease-out forwards;
-        }
+.btn {
+    margin-top: 30px;
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #7C4DFF, #FFAB40); 
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: slideInUp 1s ease-out forwards;
+}
 
-        .btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 20px rgba(124, 77, 255, 0.6); 
-        }
+.btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 20px rgba(124, 77, 255, 0.6); 
+}
 
-        .btn:active {
-            transform: scale(1);
-            box-shadow: none;
-        }
+.btn:active {
+    transform: scale(1);
+    box-shadow: none;
+}
 
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
 
-        @keyframes slideIn {
-            0% {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            100% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
+@keyframes slideIn {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
 
-        @keyframes fadeInTable {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
+@keyframes fadeInTable {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
 
-        @keyframes fadeInColumn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
+@keyframes fadeInColumn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
 
-        @keyframes bounceIn {
-            0% {
-                transform: scale(0.7);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.1);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
 
-        @keyframes slideInUp {
-            0% {
-                transform: translateY(30px);
-                opacity: 0;
-            }
-            100% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
+@keyframes slideInUp {
+    0% {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+        height: auto;
+        flex-direction: column;
+    }
+
+    .container {
+        width: 100%;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    table th, 
+    table td {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    table th, 
+    table td {
+        font-size: 0.8rem;
+    }
+
+    .total {
+        font-size: 1.2rem;
+    }
+
+    .btn {
+        font-size: 0.8rem;
+    }
+}
+
 
 
     </style>
@@ -198,15 +251,15 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="3">Tax (15%)</td>
+                    <td colspan="4">Tax (15%)</td>
                     <td id="tax-amount">$0.00</td>
                 </tr>
                 <tr>
-                    <td colspan="3">Other Charges</td>
+                    <td colspan="4">Other Charges</td>
                     <td id="other-charges">$5.00</td>
                 </tr>
                 <tr class="total">
-                    <td colspan="3">Total</td>
+                    <td colspan="4">Total</td>
                     <td id="total-amount">$0.00</td>
                 </tr>
             </tfoot>
@@ -223,10 +276,12 @@
     <script>
 
         function loadCart() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            const cart = JSON.parse(localStorage.getItem('cartData')) || [];
+            console.log(cart)
             const cartItems = document.getElementById('cart-container');
             const taxRate = 0.15;
-            const otherCharges = 5.00;
+            const otherCharges = 5.00;  
 
             let total = 0;
             cartItems.innerHTML = ''; 
@@ -255,14 +310,14 @@
         }
 
         function clearCart() {
-            localStorage.removeItem('cart');
+            localStorage.removeItem('cartData');
 
             loadCart();
             alert('Cart has been cleared!');
         }
 
         function exit() {
-            localStorage.removeItem('cart');
+            localStorage.removeItem('cartData');
             alert('Thank you for shopping with us!');
             window.location.href = 'index.html'; 
         }
