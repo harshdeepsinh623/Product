@@ -765,20 +765,17 @@ ${
       activeUser 
         ? 
         `
-   
-
         <div class="dropdown">
         <a class="btn btn-light shadow dropdown-toggle rounded-circle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         👤
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
-          <li><a class="dropdown-item">${activeUser.name}</a></li>
           <li><a class="dropdown-item">${activeUser.email}</a></li>
           <li><a class="dropdown-item">${activeUser.phone}</a></li>
              <li><hr class="dropdown-divider"></li>
           <li>
             <a class="dropdown-item">
-                <button class="btn btn-danger btn-sm px-3" onclick="logOut()">
+                <button class="btn btn-danger btn-sm px-3" onclick="logOut()">Logout
                 <i class="bi bi-box-arrow-right"></i>
               </button>   
             </a>
@@ -812,7 +809,7 @@ let obj = {
     password: document.querySelector("#password").value
  }
 
- register = JSON.parse(localStorage.getItem("register"));
+ register = JSON.parse(localStorage.getItem("register")) || [];
 
 let log = register.filter((ele) => {
   if(ele.email == obj.email && ele.password == obj.password){
@@ -820,9 +817,31 @@ let log = register.filter((ele) => {
   }
 });
 
- if(log[0]){
-    alert("user already exist");
- }
+if (log[0]) {
+  let modalElement = document.getElementById('exampleModal');
+  if (!modalElement) {
+    const modalHTML = `
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Notification</h1>
+            </div>
+            <div class="modal-body">
+              User already exists.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Okay</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+  }
+
+  const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+  modal.show();
+}
 
  else if(obj.name != "" && obj.email !="" && obj.phone !="" && obj.password != ""){
 
@@ -835,7 +854,29 @@ let log = register.filter((ele) => {
 }
 
 else{
-    alert("Please register first")
+  let modalElement = document.getElementById('exampleModal');
+  if (!modalElement) {
+    const modalHTML = `
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Notification</h1>
+            </div>
+            <div class="modal-body">
+              Please register first
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Okay</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+  }
+
+  const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+  modal.show();
 }
 })
 
@@ -866,12 +907,56 @@ document.getElementById("login").addEventListener("submit", function(e){
       }
       
       else{
-          alert("user not register")
+         let modalElement = document.getElementById('exampleModal');
+  if (!modalElement) {
+    const modalHTML = `
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Notification</h1>
+            </div>
+            <div class="modal-body">
+              User not register.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Okay</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+  }
+
+  const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+  modal.show();
       }
   }
 
   else{
-    alert("Please Login first")
+    let modalElement = document.getElementById('exampleModal');
+  if (!modalElement) {
+    const modalHTML = `
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Notification</h1>
+            </div>
+            <div class="modal-body">
+              Please login first
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Okay</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+  }
+
+  const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+  modal.show();
  }
 })
 
@@ -907,7 +992,7 @@ function displayProducts(products) {
                       </span>
                   </div>
                   <div class="pt-4 text-center">
-                      <button class="btn btn-primary" onclick="addCart(${ele.id})" style="height:50px; width: 200px;">Add to Cart</button> 
+                      <button class="btn btn-success" onclick="addCart(${ele.id})" style="height:50px; width: 200px;">Add to Cart</button> 
                   </div>
               </div>
           </div>

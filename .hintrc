@@ -19,7 +19,8 @@
       {
         "ignore": [
           "float: inline-end",
-          "backdrop-filter"
+          "backdrop-filter",
+          "text-align: -webkit-match-parent"
         ]
       }
     ],
@@ -40,7 +41,8 @@
     "axe/name-role-value": [
       "default",
       {
-        "button-name": "off"
+        "button-name": "off",
+        "link-name": "off"
       }
     ]
   }
